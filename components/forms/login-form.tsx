@@ -1,27 +1,41 @@
 'use client'
 
-import { useState } from 'react'
 import { FormInput } from './form-input'
+import { useUserStore } from '../../store/user/user'
+import { useRouter } from 'next/navigation'
 
 const inputs = [
-  { name: 'username', id: 'username', placeholder: 'Username' },
-  { name: 'password', id: 'password', placeholder: 'Password' }
+  { name: 'username', id: 'username', placeholder: 'Username', type: 'text', minLength: 5, maxLength: 30 },
+  { name: 'password', id: 'password', placeholder: 'Password', type: 'password', minLength: 5, maxLength: 30 }
 ]
 
 export function LoginForm () {
-  const handleSubmit = e => {}
+  const { loading, error, login } = useUserStore()
+
+  const router = useRouter()
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+
+    login(formData)
+      .then(() => {
+        router.replace('/')
+      })
+      .catch(() => {})
+  }
 
   return <form className='flex flex-col gap-y-4' onSubmit={handleSubmit}>
     {
-      inputs.map(el => <FormInput type='text' {...el} key={el.name} />)
+      inputs.map(el => <FormInput {...el} key={el.name} />)
     }
-    <button type='submit' className='h-10 bg-gradient-to-r from-logo-red/60 via-logo-yellow/60 to-logo-red/60 text-white font-bold'>
+    <button type='submit' className='h-10 mt-4 bg-neutral-100 text-black font-bold rounded-sm'>
       {
-        status.type === null || status.type === 'error'
-          ? 'Login'
-          : status.type === 'loading'
-            ? ''
-            : 'Sesión iniciada'
+        (error != null)
+          ? 'Ha ocurrido un error'
+          : loading
+            ? 'Cargando...'
+            : 'Login'
       }
     </button>
   </form>

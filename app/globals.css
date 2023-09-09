@@ -5,3 +5,13 @@
 .comic {
   text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
+
+/* text-shadow: 
+   .1rem .1rem .1rem #000,
+   -.1rem -.1rem .1rem #000,
+   .1rem -.1rem .1rem #000,
+   -.1rem .1rem .1rem #000; */
+
+.defaultGradient {
+  @apply bg-gradient-to-br from-logo-red/30 to-logo-yellow/30 
+}

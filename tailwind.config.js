@@ -7,7 +7,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: { 'logo-red': '#f83b00', 'logo-yellow': '#fdc704' },
+      colors: { 'logo-red': '#f83b00', 'logo-yellow': '#fdc704', 'neutral-bg': '#171717' },
       animation: {
         shine: 'shine 5s linear infinite'
       },

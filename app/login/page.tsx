@@ -1,14 +1,15 @@
-import { Logo } from '../../components/common/Logo'
+import Link from 'next/link'
 import { LoginForm } from '../../components/forms/login-form'
 
 export default function Page () {
   return <main className="flex justify-center items-center">
-    <div className="max-w-sm bg-black rounded-lg w-full flex flex-col px-6 py-14">
+    <div className="max-w-sm bg-black rounded-lg w-full flex flex-col px-6 pb-8 pt-8">
 
-      <div className='flex justify-between w-full mb-16'>
-        <h1 className='text-4xl'>Login</h1>
-        <Logo />
-      </div>
+      <h1 className='text-3xl text-center'>Log In</h1>
+      <p className='text-center mt-4 mb-12 flex gap-1 mx-auto'>
+        Nuevo usuario?
+        <Link href='/register' className='text-logo-yellow hover:underline'>Regístrate</Link>
+      </p>
 
       <LoginForm />
 

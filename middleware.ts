@@ -1,23 +1,20 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { endpoints } from './utils/endpoints'
 
 // Set the paths that don't require the user to be signed in
-const publicPaths = ['/login*', '/register*', '/forgot*', '/']
+const publicPaths = ['/login*', '/register*', '/']
 
 const isPublic = (path: string) => {
-  return publicPaths.find((x) =>
-    path.match(new RegExp(`^${x}$`.replace('*$', '($|/)')))
-  )
+  if (path === '/') return true
+  return publicPaths.find((x) => path.match(new RegExp(`^${x}$`.replace('*$', '($|/)'))))
 }
 
-export async function middleware (request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const res = NextResponse.next()
 
-  let session
+  const session = request.cookies.get('session_id')
 
   if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register') {
-    session = request.cookies.get('session_id')
     if (session != null) return NextResponse.redirect(new URL('/', request.url))
   }
 
@@ -27,12 +24,16 @@ export async function middleware (request: NextRequest) {
 
   if (session == null) return NextResponse.redirect(new URL('/login', request.url))
 
-  const isAuthenticated = await fetch(endpoints.AUTH.CHECK_SESSION.URL, { ...endpoints.AUTH.CHECK_SESSION.OPTIONS }
-  ).then(res => {
-    if (res.ok) return true
-    return false
+  const isAuthenticated = await fetch('http://127.0.0.1:5000/auth/session', {
+    headers: { 'X-SESSION_ID': session.value }
   })
+    .then((res) => {
+      if (res.ok) return true
+      return false
+    })
     .catch(() => false)
+
+  console.log({ isAuthenticated })
 
   if (!isAuthenticated) return NextResponse.redirect(new URL('/login', request.url))
 }

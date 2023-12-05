@@ -9,11 +9,20 @@ module.exports = {
     extend: {
       colors: { 'logo-red': '#f83b00', 'logo-yellow': '#fdc704', 'neutral-bg': '#171717' },
       animation: {
-        shine: 'shine 5s linear infinite'
+        shine: 'shine 5s linear infinite',
+        'fade-in': 'fadeIn 1s ease-in-out',
+        'skeleton-right': 'skeletonRight 1.5s ease infinite'
       },
       keyframes: {
         shine: {
           to: { 'background-position': 'center 200%' }
+        },
+        fadeIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 }
+        },
+        skeletonRight: {
+          to: { backgroundPosition: 'right -200px top 0' }
         }
       }
     }

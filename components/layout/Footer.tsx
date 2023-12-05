@@ -1,5 +1,3 @@
-export async function Footer () {
-  return <footer>
-
-  </footer>
+export async function Footer() {
+  return <footer></footer>
 }
